@@ -19,8 +19,6 @@ class MyGUI:
         self.price_value = tk.IntVar()
         self.root.geometry("500x500")
         self.root.title("Diamonds value calculating app")
-        self.textbox0 = tk.Text(self.root, height=1, font=('Arial', 18))
-        self.textbox0.pack()
         self.cut_label = tk.Label(self.root)
         self.cut_label.pack()
         self.color_label = tk.Label(self.root)
@@ -90,8 +88,7 @@ class MyGUI:
         self.clarity_IF.grid(row=7, column=2, sticky=tk.W)
         self.radio_frame.pack()
 
-        self.carat_slider = tk.Scale(self.root,from_=0,to=500,orient="horizontal",tickinterval=0.1)
-        self.carat_slider.pack()
+        self.entry_carat = tk.Entry(self.root, insertwidth=200)
         self.send_button = tk.Button(self.root, text='price', padx=10,command=self.send)
         self.send_button.pack()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)

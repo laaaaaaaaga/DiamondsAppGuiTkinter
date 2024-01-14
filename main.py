@@ -142,17 +142,17 @@ class MyGUI:
         clarity_selection = "you chose " + str(self.clarity_value.get())
         self.clarity_label.config(text=clarity_selection)
 
+# not sure if i need to use .get() to get String value, to test later with working webhook
     def send(self):
-        data = {'carat': self.carat_value,
-                'cut': self.cut_value,
-                'color': self.color_value,
-                'clarity': self.clarity_value,
-                'depth': self.depth_value,
-                'table': self.table_value,
-                'price': self.price_value,
-                'x': self.x_value,
-                'y': self.y_value,
-                'z': self.z_value}
+        data = {'carat': self.carat_value.get(),
+                'cut': self.cut_value.get(),
+                'color': self.color_value.get(),
+                'clarity': self.clarity_value.get(),
+                'depth': self.depth_value.get(),
+                'table': self.table_value.get(),
+                'x': self.x_value.get(),
+                'y': self.y_value.get(),
+                'z': self.z_value.get()}
         requests.post(self.webhook_url, data=json.dumps(data), headers={'Content-Type': 'application/json'})
 
     def on_closing(self):

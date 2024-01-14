@@ -19,6 +19,17 @@ class MyGUI:
         self.price_value = tk.IntVar()
         self.root.geometry("500x500")
         self.root.title("Diamonds value calculating app")
+<<<<<<< HEAD
+=======
+        self.textbox0 = tk.Text(self.root, height=1, font=('Arial', 18))
+        self.textbox0.pack()
+        self.cut_label = tk.Label(self.root)
+        self.cut_label.pack()
+        self.color_label = tk.Label(self.root)
+        self.color_label.pack()
+        self.clarity_label = tk.Label(self.root)
+        self.clarity_label.pack()
+>>>>>>> parent of c1a5aca (removed unnecessary slider and textbox)
         self.radio_frame = tk.Frame(self.root)
         self.radio_frame.rowconfigure(0, weight=1)
         self.radio_frame.columnconfigure(0, weight=1)
@@ -87,7 +98,8 @@ class MyGUI:
         self.clarity_IF.grid(row=2, column=8, sticky=tk.W)
         self.radio_frame.pack()
 
-        self.entry_carat = tk.Entry(self.root, insertwidth=200)
+        self.carat_slider = tk.Scale(self.root,from_=0,to=500,orient="horizontal",tickinterval=0.1)
+        self.carat_slider.pack()
         self.send_button = tk.Button(self.root, text='price', padx=10,command=self.send)
         self.send_button.pack()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)

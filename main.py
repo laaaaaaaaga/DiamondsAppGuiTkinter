@@ -18,7 +18,7 @@ class MyGUI:
         self.depth_value = tk.DoubleVar()
         self.table_value = tk.DoubleVar()
         self.price_value = tk.IntVar()
-        self.root.geometry("900x500")
+        # self.root.geometry("600x500")
         self.root.title("Diamonds value calculating app")
         self.radio_frame = tk.Frame(self.root)
         self.radio_frame.rowconfigure(0, weight=1)
@@ -45,52 +45,52 @@ class MyGUI:
                                         pady=10, command=self.selection_cut)
         self.cut_ideal.grid(row=0, column=1)
         self.cut_premium = tk.Radiobutton(self.radio_frame, text='Premium', value='Premium', variable=self.cut_value,
-                                          padx=10,pady=10, command=self.selection_cut)
+                                          padx=10, pady=10, command=self.selection_cut)
         self.cut_premium.grid(row=0, column=2)
         self.cut_very_good = tk.Radiobutton(self.radio_frame, text='Very Good', value='Very_good',
-                                            variable=self.cut_value,padx=10, pady=10, command=self.selection_cut)
+                                            variable=self.cut_value, padx=10, pady=10, command=self.selection_cut)
         self.cut_very_good.grid(row=0, column=3)
         self.cut_good = tk.Radiobutton(self.radio_frame, text='Good', value='Good', variable=self.cut_value, padx=10,
-                                       pady=10,command=self.selection_cut)
+                                       pady=10, command=self.selection_cut)
         self.cut_good.grid(row=0, column=4)
         self.cut_fair = tk.Radiobutton(self.radio_frame, text='Fair', value='Fair', variable=self.cut_value, padx=10,
-                                       pady=10,command=self.selection_cut)
+                                       pady=10, command=self.selection_cut)
         self.cut_fair.grid(row=0, column=5)
         self.color_D = tk.Radiobutton(self.radio_frame, text='D', value='D', variable=self.color_value, padx=10,
-                                      pady=10,command=self.selection_color)
+                                      pady=10, command=self.selection_color)
         self.color_D.grid(row=1, column=1)
         self.color_E = tk.Radiobutton(self.radio_frame, text='E', value='E', variable=self.color_value, padx=10,
-                                      pady=10,command=self.selection_color)
+                                      pady=10, command=self.selection_color)
         self.color_E.grid(row=1, column=2)
         self.color_F = tk.Radiobutton(self.radio_frame, text='F', value='F', variable=self.color_value, padx=10,
-                                      pady=10,command=self.selection_color)
+                                      pady=10, command=self.selection_color)
         self.color_F.grid(row=1, column=3)
         self.color_G = tk.Radiobutton(self.radio_frame, text='G', value='G', variable=self.color_value, padx=10,
-                                      pady=10,command=self.selection_color)
+                                      pady=10, command=self.selection_color)
         self.color_G.grid(row=1, column=4)
         self.color_H = tk.Radiobutton(self.radio_frame, text='H', value='H', variable=self.color_value, padx=10,
-                                      pady=10,command=self.selection_color)
+                                      pady=10, command=self.selection_color)
         self.color_H.grid(row=1, column=5)
         self.color_I = tk.Radiobutton(self.radio_frame, text='I', value='I', variable=self.color_value, padx=10,
-                                      pady=10,command=self.selection_color)
+                                      pady=10, command=self.selection_color)
         self.color_I.grid(row=1, column=6)
         self.clarity_SI1 = tk.Radiobutton(self.radio_frame, text='SI1', value='SI1', variable=self.clarity_value,
-                                          padx=10,pady=10, command=self.selection_clarity)
+                                          padx=10, pady=10, command=self.selection_clarity)
         self.clarity_SI1.grid(row=2, column=1)
         self.clarity_SI2 = tk.Radiobutton(self.radio_frame, text='SI2', value='SI2', variable=self.clarity_value,
-                                          padx=10,pady=10, command=self.selection_clarity)
+                                          padx=10, pady=10, command=self.selection_clarity)
         self.clarity_SI2.grid(row=2, column=2)
         self.clarity_VS1 = tk.Radiobutton(self.radio_frame, text='VS1', value='VS1', variable=self.clarity_value,
-                                          padx=10,pady=10, command=self.selection_clarity)
+                                          padx=10, pady=10, command=self.selection_clarity)
         self.clarity_VS1.grid(row=2, column=3)
         self.clarity_VS2 = tk.Radiobutton(self.radio_frame, text='VS2', value='VS2', variable=self.clarity_value,
-                                          padx=10,pady=10, command=self.selection_clarity)
+                                          padx=10, pady=10, command=self.selection_clarity)
         self.clarity_VS2.grid(row=2, column=4)
         self.clarity_VVS1 = tk.Radiobutton(self.radio_frame, text='VVS1', value='VVS1', variable=self.clarity_value,
-                                           padx=10,pady=10, command=self.selection_clarity)
+                                           padx=10, pady=10, command=self.selection_clarity)
         self.clarity_VVS1.grid(row=2, column=5)
         self.clarity_VVS2 = tk.Radiobutton(self.radio_frame, text='VVS2', value='VVS2', variable=self.clarity_value,
-                                           padx=10,pady=10, command=self.selection_clarity)
+                                           padx=10, pady=10, command=self.selection_clarity)
         self.clarity_VVS2.grid(row=2, column=6)
         self.clarity_I1 = tk.Radiobutton(self.radio_frame, text='I1', value='I1', variable=self.clarity_value, padx=10,
                                          pady=10, command=self.selection_clarity)
@@ -103,7 +103,7 @@ class MyGUI:
         self.carat_label = tk.Label(self.text_fields_frame, text='Carats')
         self.carat_label.grid(row=0, column=0)
         self.entry_carat = tk.Entry(self.text_fields_frame, insertwidth=2)
-        self.entry_carat.grid(row=1,column=0)
+        self.entry_carat.grid(row=1, column=0)
         self.depth_label = tk.Label(self.text_fields_frame, text='Depth')
         self.depth_label.grid(row=0, column=1)
         self.entry_depth = tk.Entry(self.text_fields_frame, insertwidth=2)
@@ -153,7 +153,7 @@ class MyGUI:
                 'x': self.x_value,
                 'y': self.y_value,
                 'z': self.z_value}
-        r = requests.post(self.webhook_url, data=json.dumps(data), headers={'Content-Type': 'application/json'})
+        requests.post(self.webhook_url, data=json.dumps(data), headers={'Content-Type': 'application/json'})
 
     def on_closing(self):
         if messagebox.askyesno(title="Quit?", message="do you want to quit the program?"):

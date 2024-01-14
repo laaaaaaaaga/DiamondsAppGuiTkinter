@@ -1,85 +1,131 @@
 import tkinter as tk
+import json
+import requests
 from tkinter import messagebox
 
 class MyGUI:
     def __init__(self):
+        self.webhook_url = ''
         self.root = tk.Tk()
-        self.cut = tk.StringVar()
-        self.color = tk.StringVar()
-        self.clarity = tk.StringVar()
+        self.cut_value = tk.StringVar()
+        self.color_value = tk.StringVar()
+        self.clarity_value = tk.StringVar()
+        self.x_value = tk.DoubleVar()
+        self.y_value = tk.DoubleVar()
+        self.z_value = tk.DoubleVar()
+        self.carat_value = tk.DoubleVar()
+        self.depth_value = tk.DoubleVar()
+        self.table_value = tk.DoubleVar()
+        self.price_value = tk.IntVar()
         self.root.geometry("500x500")
         self.root.title("Diamonds value calculating app")
         self.textbox0 = tk.Text(self.root, height=1, font=('Arial', 18))
         self.textbox0.pack()
-        self.cutlabel = tk.Label(self.root)
-        self.cutlabel.pack()
-        self.colorlabel = tk.Label(self.root)
-        self.colorlabel.pack()
-        self.claritylabel = tk.Label(self.root)
-        self.claritylabel.pack()
-        self.radioframe = tk.Frame(self.root)
-        self.radioframe.columnconfigure(0, weight=1)
-        self.radioframe.columnconfigure(1, weight=1)
-        self.radioframe.columnconfigure(2, weight=1)
-        self.cut_ideal = tk.Radiobutton(self.radioframe, text='Ideal', value='Ideal', variable=self.cut, padx=10, pady=10,command=self.selcut)
+        self.cut_label = tk.Label(self.root)
+        self.cut_label.pack()
+        self.color_label = tk.Label(self.root)
+        self.color_label.pack()
+        self.clarity_label = tk.Label(self.root)
+        self.clarity_label.pack()
+        self.radio_frame = tk.Frame(self.root)
+        self.radio_frame.columnconfigure(0, weight=1)
+        self.radio_frame.columnconfigure(1, weight=1)
+        self.radio_frame.columnconfigure(2, weight=1)
+        self.cut_ideal = tk.Radiobutton(self.radio_frame, text='Ideal', value='Ideal', variable=self.cut_value, padx=10,
+                                        pady=10, command=self.selection_cut)
         self.cut_ideal.grid(row=0, column=0, sticky=tk.W)
-        self.cut_premium = tk.Radiobutton(self.radioframe, text='Premium', value='Premium', variable=self.cut, padx=10, pady=10,command=self.selcut)
+        self.cut_premium = tk.Radiobutton(self.radio_frame, text='Premium', value='Premium', variable=self.cut_value, padx=10,
+                                          pady=10, command=self.selection_cut)
         self.cut_premium.grid(row=1, column=0, sticky=tk.W)
-        self.cut_very_good = tk.Radiobutton(self.radioframe, text='Very Good', value='Very_good', variable=self.cut, padx=10,pady=10,command=self.selcut)
+        self.cut_very_good = tk.Radiobutton(self.radio_frame, text='Very Good', value='Very_good', variable=self.cut_value,
+                                            padx=10, pady=10, command=self.selection_cut)
         self.cut_very_good.grid(row=2, column=0, sticky=tk.W)
-        self.cut_good = tk.Radiobutton(self.radioframe, text='Good', value='Good', variable=self.cut, padx=10, pady=10,command=self.selcut)
+        self.cut_good = tk.Radiobutton(self.radio_frame, text='Good', value='Good', variable=self.cut_value, padx=10, pady=10,
+                                       command=self.selection_cut)
         self.cut_good.grid(row=3, column=0, sticky=tk.W)
-        self.cut_fair = tk.Radiobutton(self.radioframe, text='Fair', value='Fair', variable=self.cut, padx=10, pady=10,command=self.selcut)
+        self.cut_fair = tk.Radiobutton(self.radio_frame, text='Fair', value='Fair', variable=self.cut_value, padx=10, pady=10,
+                                       command=self.selection_cut)
         self.cut_fair.grid(row=4, column=0, sticky=tk.W)
-        self.color_D = tk.Radiobutton(self.radioframe, text='D', value='D', variable=self.color, padx=10, pady=10,command=self.selcolor)
+        self.color_D = tk.Radiobutton(self.radio_frame, text='D', value='D', variable=self.color_value, padx=10, pady=10,
+                                      command=self.selection_color)
         self.color_D.grid(row=0, column=1, sticky=tk.W)
-        self.color_E = tk.Radiobutton(self.radioframe, text='E', value='E', variable=self.color, padx=10, pady=10,command=self.selcolor)
+        self.color_E = tk.Radiobutton(self.radio_frame, text='E', value='E', variable=self.color_value, padx=10, pady=10,
+                                      command=self.selection_color)
         self.color_E.grid(row=1, column=1, sticky=tk.W)
-        self.color_F = tk.Radiobutton(self.radioframe, text='F', value='F', variable=self.color, padx=10, pady=10,command=self.selcolor)
+        self.color_F = tk.Radiobutton(self.radio_frame, text='F', value='F', variable=self.color_value, padx=10, pady=10,
+                                      command=self.selection_color)
         self.color_F.grid(row=2, column=1, sticky=tk.W)
-        self.color_G = tk.Radiobutton(self.radioframe, text='G', value='G', variable=self.color, padx=10, pady=10,command=self.selcolor)
+        self.color_G = tk.Radiobutton(self.radio_frame, text='G', value='G', variable=self.color_value, padx=10, pady=10,
+                                      command=self.selection_color)
         self.color_G.grid(row=3, column=1, sticky=tk.W)
-        self.color_H = tk.Radiobutton(self.radioframe, text='H', value='H', variable=self.color, padx=10, pady=10,command=self.selcolor)
+        self.color_H = tk.Radiobutton(self.radio_frame, text='H', value='H', variable=self.color_value, padx=10, pady=10,
+                                      command=self.selection_color)
         self.color_H.grid(row=4, column=1, sticky=tk.W)
-        self.color_I = tk.Radiobutton(self.radioframe, text='I', value='I', variable=self.color, padx=10, pady=10,command=self.selcolor)
+        self.color_I = tk.Radiobutton(self.radio_frame, text='I', value='I', variable=self.color_value, padx=10, pady=10,
+                                      command=self.selection_color)
         self.color_I.grid(row=5, column=1, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='SI1', value='SI1', variable=self.clarity, padx=10, pady=10,command=self.selclarity)
-        self.clarity_.grid(row=0, column=2, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='SI2', value='SI2', variable=self.clarity, padx=10, pady=10,command=self.selclarity)
-        self.clarity_.grid(row=1, column=2, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='VS1', value='VS1', variable=self.clarity, padx=10, pady=10,command=self.selclarity)
-        self.clarity_.grid(row=2, column=2, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='VS2', value='VS2', variable=self.clarity, padx=10, pady=10,command=self.selclarity)
-        self.clarity_.grid(row=3, column=2, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='VVS1', value='VVS1', variable=self.clarity, padx=10, pady=10, command=self.selclarity)
-        self.clarity_.grid(row=4, column=2, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='VVS2', value='VVS2', variable=self.clarity, padx=10, pady=10,command=self.selclarity)
-        self.clarity_.grid(row=5, column=2, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='I1', value='I1', variable=self.clarity, padx=10, pady=10,command=self.selclarity)
-        self.clarity_.grid(row=6, column=2, sticky=tk.W)
-        self.clarity_ = tk.Radiobutton(self.radioframe, text='IF', value='IF', variable=self.clarity, padx=10, pady=10,command=self.selclarity)
-        self.clarity_.grid(row=7, column=2, sticky=tk.W)
-        self.radioframe.pack()
-        self.sendbutton = tk.Button(self.root, text='wyceń', padx=10)
-        self.sendbutton.pack()
+        self.clarity_SI1 = tk.Radiobutton(self.radio_frame, text='SI1', value='SI1', variable=self.clarity_value, padx=10,
+                                          pady=10, command=self.selection_clarity)
+        self.clarity_SI1.grid(row=0, column=2, sticky=tk.W)
+        self.clarity_SI2 = tk.Radiobutton(self.radio_frame, text='SI2', value='SI2', variable=self.clarity_value, padx=10,
+                                          pady=10, command=self.selection_clarity)
+        self.clarity_SI2.grid(row=1, column=2, sticky=tk.W)
+        self.clarity_VS1 = tk.Radiobutton(self.radio_frame, text='VS1', value='VS1', variable=self.clarity_value, padx=10,
+                                          pady=10, command=self.selection_clarity)
+        self.clarity_VS1.grid(row=2, column=2, sticky=tk.W)
+        self.clarity_VS2 = tk.Radiobutton(self.radio_frame, text='VS2', value='VS2', variable=self.clarity_value, padx=10,
+                                          pady=10, command=self.selection_clarity)
+        self.clarity_VS2.grid(row=3, column=2, sticky=tk.W)
+        self.clarity_VVS1 = tk.Radiobutton(self.radio_frame, text='VVS1', value='VVS1', variable=self.clarity_value, padx=10,
+                                           pady=10, command=self.selection_clarity)
+        self.clarity_VVS1.grid(row=4, column=2, sticky=tk.W)
+        self.clarity_VVS2 = tk.Radiobutton(self.radio_frame, text='VVS2', value='VVS2', variable=self.clarity_value, padx=10,
+                                           pady=10, command=self.selection_clarity)
+        self.clarity_VVS2.grid(row=5, column=2, sticky=tk.W)
+        self.clarity_I1 = tk.Radiobutton(self.radio_frame, text='I1', value='I1', variable=self.clarity_value, padx=10,
+                                         pady=10, command=self.selection_clarity)
+        self.clarity_I1.grid(row=6, column=2, sticky=tk.W)
+        self.clarity_IF = tk.Radiobutton(self.radio_frame, text='IF', value='IF', variable=self.clarity_value, padx=10,
+                                         pady=10, command=self.selection_clarity)
+        self.clarity_IF.grid(row=7, column=2, sticky=tk.W)
+        self.radio_frame.pack()
+
+        self.carat_slider = tk.Scale(self.root,from_=0,to=500,orient="horizontal",tickinterval=0.1)
+        self.carat_slider.pack()
+        self.send_button = tk.Button(self.root, text='price', padx=10,command=self.send)
+        self.send_button.pack()
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.mainloop()
 
+    def selection_cut(self):
+        cut_selection = "you chose " + str(self.cut_value.get())
+        self.cut_label.config(text=cut_selection)
 
-    def selcut(self):
-        cutselection = "you chose " + str(self.cut.get())
-        self.cutlabel.config(text=cutselection)
+    def selection_color(self):
+        color_selection = "you chose " + str(self.color_value.get())
+        self.color_label.config(text=color_selection)
 
-    def selcolor(self):
-        colorselection = "you chose " + str(self.color.get())
-        self.colorlabel.config(text=colorselection)
+    def selection_clarity(self):
+        clarity_selection = "you chose " + str(self.clarity_value.get())
+        self.clarity_label.config(text=clarity_selection)
 
-    def selclarity(self):
-        clarityselection = "you chose " + str(self.clarity.get())
-        self.claritylabel.config(text=clarityselection)
+    def send(self):
+        data = {'carat': self.carat_value,
+                'cut': self.cut_value,
+                'color': self.color_value,
+                'clarity': self.clarity_value,
+                'depth': self.depth_value,
+                'table' : self.table_value,
+                'price' : self.price_value,
+                'x': self.x_value,
+                'y': self.y_value,
+                'z':self.z_value}
+        r = requests.post(self.webhook_url,data=json.dump(data),headers={'Content-Type': 'application/json'})
+
 
     def on_closing(self):
-        if messagebox.askyesno(title="Quit?",message="do you want to quit the program?"):
+        if messagebox.askyesno(title="Quit?", message="do you want to quit the program?"):
             self.root.destroy()
+
 
 MyGUI()

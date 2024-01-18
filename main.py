@@ -2,11 +2,12 @@ import tkinter as tk
 import json
 import requests
 from tkinter import messagebox
+from urllib.parse import urlencode
 
 
 class MyGUI:
     def __init__(self):
-        self.webhook_url = ''
+        self.webhook_url = 'https://diamonds-jcvkxdo2ba-lz.a.run.app/diamond_price'
         self.root = tk.Tk()
         self.cut_value = tk.StringVar(value='x')
         self.color_value = tk.StringVar(value='x')
@@ -153,7 +154,11 @@ class MyGUI:
                 'x': self.x_value.get(),
                 'y': self.y_value.get(),
                 'z': self.z_value.get()}
-        requests.post(self.webhook_url, data=json.dumps(data), headers={'Content-Type': 'application/json'})
+        url_params = urlencode(data)
+        response = requests.get(f"{self.webhook_url}?{url_params}")
+        if response.status_code == 200:
+            print(response.json()["prediction"])
+
 
     def on_closing(self):
         if messagebox.askyesno(title="Quit?", message="do you want to quit the program?"):

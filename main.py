@@ -1,24 +1,32 @@
 import tkinter as tk
-import json
 import requests
 from tkinter import messagebox
 from urllib.parse import urlencode
+
+
+def open_popup(value):
+    top = tk.Toplevel()
+    top.wm_title("Price of diamond")
+    toplabel = tk.Label(top,text='suggested price= '+str(value))
+    toplabel.pack(fill='x')
+    button_close = tk.Button(top,text='close',command=top.destroy)
+    button_close.pack(fill='x')
 
 
 class MyGUI:
     def __init__(self):
         self.webhook_url = 'https://diamonds-jcvkxdo2ba-lz.a.run.app/diamond_price'
         self.root = tk.Tk()
-        self.cut_value = tk.StringVar(value='x')
-        self.color_value = tk.StringVar(value='x')
-        self.clarity_value = tk.StringVar(value='x')
-        self.x_value = tk.DoubleVar()
-        self.y_value = tk.DoubleVar()
-        self.z_value = tk.DoubleVar()
-        self.carat_value = tk.DoubleVar()
-        self.depth_value = tk.DoubleVar()
-        self.table_value = tk.DoubleVar()
-        self.price_value = tk.IntVar()
+        self.cut_value = tk.StringVar(value='Ideal')
+        self.color_value = tk.StringVar(value='D')
+        self.clarity_value = tk.StringVar(value='SI1')
+        self.x_value = tk.DoubleVar(value=1)
+        self.y_value = tk.DoubleVar(value=1)
+        self.z_value = tk.DoubleVar(value=1)
+        self.carat_value = tk.DoubleVar(value=1)
+        self.depth_value = tk.DoubleVar(value=1)
+        self.table_value = tk.DoubleVar(value=1)
+        self.price_value = tk.IntVar(value=1)
         # self.root.geometry("600x500")
         self.root.title("Diamonds value calculating app")
         self.radio_frame = tk.Frame(self.root)
@@ -103,27 +111,27 @@ class MyGUI:
         self.text_fields_frame = tk.Frame(self.root)
         self.carat_label = tk.Label(self.text_fields_frame, text='Carats')
         self.carat_label.grid(row=0, column=0)
-        self.entry_carat = tk.Entry(self.text_fields_frame, insertwidth=2)
+        self.entry_carat = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.carat_value)
         self.entry_carat.grid(row=1, column=0)
         self.depth_label = tk.Label(self.text_fields_frame, text='Depth')
         self.depth_label.grid(row=0, column=1)
-        self.entry_depth = tk.Entry(self.text_fields_frame, insertwidth=2)
+        self.entry_depth = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.depth_value)
         self.entry_depth.grid(row=1, column=1)
         self.table_label = tk.Label(self.text_fields_frame, text='Table')
         self.table_label.grid(row=0, column=2)
-        self.entry_table = tk.Entry(self.text_fields_frame, insertwidth=2)
+        self.entry_table = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.table_value)
         self.entry_table.grid(row=1, column=2)
         self.x_label = tk.Label(self.text_fields_frame, text='Length in mm')
         self.x_label.grid(row=0, column=3)
-        self.entry_x = tk.Entry(self.text_fields_frame, insertwidth=2)
+        self.entry_x = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.x_value)
         self.entry_x.grid(row=1, column=3)
         self.y_label = tk.Label(self.text_fields_frame, text='Width in mm')
         self.y_label.grid(row=0, column=4)
-        self.entry_y = tk.Entry(self.text_fields_frame, insertwidth=2)
+        self.entry_y = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.y_value)
         self.entry_y.grid(row=1, column=4)
         self.z_label = tk.Label(self.text_fields_frame, text='Depth in mm')
         self.z_label.grid(row=0, column=5)
-        self.entry_z = tk.Entry(self.text_fields_frame, insertwidth=2)
+        self.entry_z = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.z_value)
         self.entry_z.grid(row=1, column=5)
         self.text_fields_frame.pack()
         self.send_button = tk.Button(self.root, text='price', padx=10, command=self.send)
@@ -157,12 +165,13 @@ class MyGUI:
         url_params = urlencode(data)
         response = requests.get(f"{self.webhook_url}?{url_params}")
         if response.status_code == 200:
-            print(response.json()["prediction"])
-
+            prediction = response.json()["prediction"]
+            print(prediction)
+            open_popup(prediction)
 
     def on_closing(self):
         if messagebox.askyesno(title="Quit?", message="do you want to quit the program?"):
             self.root.destroy()
 
-
+# --- main ---
 MyGUI()

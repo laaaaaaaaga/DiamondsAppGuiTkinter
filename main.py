@@ -1,16 +1,24 @@
+import inspect
 import tkinter as tk
-import requests
 from tkinter import messagebox
 from urllib.parse import urlencode
+
+import traceback
+import requests
 
 
 def open_popup(value):
     top = tk.Toplevel()
     top.wm_title("Price of diamond")
-    toplabel = tk.Label(top,text='suggested price= '+str(value))
+    toplabel = tk.Label(top, text='suggested price = ' + str(value))
     toplabel.pack(fill='x')
-    button_close = tk.Button(top,text='close',command=top.destroy)
+    button_close = tk.Button(top, text='close', command=top.destroy)
     button_close.pack(fill='x')
+
+
+def open_error(args):
+    tk.messagebox.showerror('error has occured', args)
+
 
 
 class MyGUI:
@@ -107,31 +115,31 @@ class MyGUI:
         self.clarity_IF = tk.Radiobutton(self.radio_frame, text='IF', value='IF', variable=self.clarity_value, padx=10,
                                          pady=10, command=self.selection_clarity)
         self.clarity_IF.grid(row=2, column=8)
-        self.radio_frame.pack()
+        self.radio_frame.pack(fill='x')
         self.text_fields_frame = tk.Frame(self.root)
         self.carat_label = tk.Label(self.text_fields_frame, text='Carats')
         self.carat_label.grid(row=0, column=0)
-        self.entry_carat = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.carat_value)
+        self.entry_carat = tk.Entry(self.text_fields_frame, insertwidth=2, textvariable=self.carat_value)
         self.entry_carat.grid(row=1, column=0)
         self.depth_label = tk.Label(self.text_fields_frame, text='Depth')
         self.depth_label.grid(row=0, column=1)
-        self.entry_depth = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.depth_value)
+        self.entry_depth = tk.Entry(self.text_fields_frame, insertwidth=2, textvariable=self.depth_value)
         self.entry_depth.grid(row=1, column=1)
         self.table_label = tk.Label(self.text_fields_frame, text='Table')
         self.table_label.grid(row=0, column=2)
-        self.entry_table = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.table_value)
+        self.entry_table = tk.Entry(self.text_fields_frame, insertwidth=2, textvariable=self.table_value)
         self.entry_table.grid(row=1, column=2)
         self.x_label = tk.Label(self.text_fields_frame, text='Length in mm')
         self.x_label.grid(row=0, column=3)
-        self.entry_x = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.x_value)
+        self.entry_x = tk.Entry(self.text_fields_frame, insertwidth=2, textvariable=self.x_value)
         self.entry_x.grid(row=1, column=3)
         self.y_label = tk.Label(self.text_fields_frame, text='Width in mm')
         self.y_label.grid(row=0, column=4)
-        self.entry_y = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.y_value)
+        self.entry_y = tk.Entry(self.text_fields_frame, insertwidth=2, textvariable=self.y_value)
         self.entry_y.grid(row=1, column=4)
         self.z_label = tk.Label(self.text_fields_frame, text='Depth in mm')
         self.z_label.grid(row=0, column=5)
-        self.entry_z = tk.Entry(self.text_fields_frame, insertwidth=2,textvariable=self.z_value)
+        self.entry_z = tk.Entry(self.text_fields_frame, insertwidth=2, textvariable=self.z_value)
         self.entry_z.grid(row=1, column=5)
         self.text_fields_frame.pack()
         self.send_button = tk.Button(self.root, text='price', padx=10, command=self.send)
@@ -151,27 +159,34 @@ class MyGUI:
         clarity_selection = "you chose " + str(self.clarity_value.get())
         self.clarity_label.config(text=clarity_selection)
 
-# not sure if i need to use .get() to get String value, to test later with working webhook
+
     def send(self):
-        data = {'carat': self.carat_value.get(),
-                'cut': self.cut_value.get(),
-                'color': self.color_value.get(),
-                'clarity': self.clarity_value.get(),
-                'depth': self.depth_value.get(),
-                'table': self.table_value.get(),
-                'x': self.x_value.get(),
-                'y': self.y_value.get(),
-                'z': self.z_value.get()}
-        url_params = urlencode(data)
-        response = requests.get(f"{self.webhook_url}?{url_params}")
-        if response.status_code == 200:
-            prediction = response.json()["prediction"]
-            print(prediction)
-            open_popup(prediction)
+        try:
+            data = {'carat': self.carat_value.get(),
+                    'cut': self.cut_value.get(),
+                    'color': self.color_value.get(),
+                    'clarity': self.clarity_value.get(),
+                    'depth': self.depth_value.get(),
+                    'table': self.table_value.get(),
+                    'x': self.x_value.get(),
+                    'y': self.y_value.get(),
+                    'z': self.z_value.get()}
+            url_params = urlencode(data)
+            response = requests.get(f"{self.webhook_url}?{url_params}")
+            if response.status_code == 200:
+                prediction = response.json()["prediction"]
+                open_popup(prediction)
+                print(prediction)
+        except tk.TclError:
+            open_error('please input float value')
+        except:
+            open_error('something is wrong, contact the developer')
+
 
     def on_closing(self):
         if messagebox.askyesno(title="Quit?", message="do you want to quit the program?"):
             self.root.destroy()
+
 
 # --- main ---
 MyGUI()

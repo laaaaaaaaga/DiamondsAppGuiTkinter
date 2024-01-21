@@ -1,24 +1,21 @@
-import inspect
 import tkinter as tk
 from tkinter import messagebox
 from urllib.parse import urlencode
 
-import traceback
 import requests
 
 
 def open_popup(value):
     top = tk.Toplevel()
     top.wm_title("Price of diamond")
-    toplabel = tk.Label(top, text='suggested price = ' + str(value))
-    toplabel.pack(fill='x')
+    top_label = tk.Label(top, text='suggested price = ' + str(value))
+    top_label.pack(fill='x')
     button_close = tk.Button(top, text='close', command=top.destroy)
     button_close.pack(fill='x')
 
 
 def open_error(args):
-    tk.messagebox.showerror('error has occured', args)
-
+    tk.messagebox.showerror('error has occurred', args)
 
 
 class MyGUI:
@@ -159,7 +156,6 @@ class MyGUI:
         clarity_selection = "you chose " + str(self.clarity_value.get())
         self.clarity_label.config(text=clarity_selection)
 
-
     def send(self):
         try:
             data = {'carat': self.carat_value.get(),
@@ -181,7 +177,6 @@ class MyGUI:
             open_error('please input float value')
         except:
             open_error('something is wrong, contact the developer')
-
 
     def on_closing(self):
         if messagebox.askyesno(title="Quit?", message="do you want to quit the program?"):

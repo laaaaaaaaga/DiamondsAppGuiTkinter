@@ -1,5 +1,5 @@
 """
-imports for file
+Gui app for Diamonds evaluation SUML project
 """
 import tkinter as tk
 from tkinter import messagebox
@@ -8,8 +8,8 @@ from urllib.parse import urlencode
 import requests
 
 
-
 def open_popup(value):
+    """function for opening popup with given value as pricing."""
     top = tk.Toplevel()
     top.wm_title("Price of diamond")
     top_label = tk.Label(top, text="suggested price = " + str(value))
@@ -19,10 +19,12 @@ def open_popup(value):
 
 
 def open_error(args):
+    """function for opening errorbox with given args"""
     tk.messagebox.showerror("error has occurred", args)
 
 
 class MyGUI:
+    """Main GUI application body"""
     def __init__(self):
         self.webhook_url = "https://diamonds-jcvkxdo2ba-lz.a.run.app/diamond_price"
         self.root = tk.Tk()
@@ -296,18 +298,22 @@ class MyGUI:
         self.root.mainloop()
 
     def selection_cut(self):
+        """function responsible for changing name of cut label"""
         cut_selection = "you chose " + str(self.cut_value.get())
         self.cut_label.config(text=cut_selection)
 
     def selection_color(self):
+        """function responsible for changing name of color label"""
         color_selection = "you chose " + str(self.color_value.get())
         self.color_label.config(text=color_selection)
 
     def selection_clarity(self):
+        """function responsible for changing name of clarity label"""
         clarity_selection = "you chose " + str(self.clarity_value.get())
         self.clarity_label.config(text=clarity_selection)
 
     def send(self):
+        """main data request method"""
         try:
             data = {
                 "carat": self.carat_value.get(),
@@ -332,6 +338,7 @@ class MyGUI:
             open_error("something is wrong, contact the developer")
 
     def on_closing(self):
+        """method asking for confirmation on app closing"""
         if messagebox.askyesno(
             title="Quit?", message="do you want to quit the program?"
         ):

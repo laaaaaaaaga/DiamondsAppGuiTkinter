@@ -30,4 +30,4 @@ In terminal run command
 pyinstaller main.py --onefile --name DesiredAppName
 ```
 <br>
-After a short while your executable file called "DesiredAppName.exe" should be created in folder "dist". This exectuable file will be created for system that you are currently using. For example if you follow this tutorial on windows the created file extension will be ".exe". To create ".dmg" or other executable files you will need to repeat the proccess on the machine with the desired system.
+After a short while, your executable file called "DesiredAppName.exe" should be created in folder "dist". This exectuable file will be created for system that you are currently using. For example if you follow this tutorial on windows the created file extension will be ".exe". To create ".dmg" or other executable files you will need to repeat the proccess on the machine with the desired system.

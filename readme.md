@@ -4,7 +4,8 @@ title:		Diamonds pricing app readme
 date:		21.01.2024
 lang:		en
 ---
-## Diamonds pricing app
+# Diamonds pricing app
+## Overview
 This app is a part of a bigger project. To use it simply download the 'DiamondsApp.exe' file from 'dist' folder and enjoy your pricing app.
 
 ## How to use it?
@@ -18,8 +19,11 @@ Clone the repository to your desired directory on any machine that has git insta
 git clone https://github.com/laaaaaaaaga/DiamondsAppGuiTkinter.git
 ```
 <br>
+then set the python interpreter configuration to Python 3.10.
 
-Install pyinstaller by typing into terminal.
+<br>
+
+After that install pyinstaller by typing into terminal.
 ```shell
 pip install pyinstaller
 ``` 

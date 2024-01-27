@@ -189,11 +189,11 @@ class MyGUI:
     def send(self):
         """main data request method"""
         try:
-            if (self.carat_value.get() < 0 or self.depth_value.get() < 0):
+            if self.carat_value.get() < 0 or self.depth_value.get() < 0:
                 raise ValueError
-            if(self.table_value.get() < 0):
+            if self.table_value.get() < 0:
                 raise ValueError
-            if(self.x_value.get() < 0 or self.y_value.get() < 0 or self.z_value.get() < 0):
+            if self.x_value.get() < 0 or self.y_value.get() < 0 or self.z_value.get() < 0:
                 raise ValueError
             data = {"carat": self.carat_value.get(), "cut": self.cut_value.get(),
                     "color": self.color_value.get(), "clarity": self.clarity_value.get(),

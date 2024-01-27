@@ -1,6 +1,4 @@
-"""
-Gui app for Diamonds evaluation SUML project
-"""
+"""Gui app for Diamonds evaluation SUML project"""
 import tkinter as tk
 from tkinter import messagebox
 from urllib.parse import urlencode
@@ -315,6 +313,8 @@ class MyGUI:
     def send(self):
         """main data request method"""
         try:
+            if(self.carat_value.get()<0 or self.depth_value.get()<0 or self.table_value.get()<0 or self.x_value.get()<0 or self.y_value.get()<0 or self.z_value.get()<0):
+                raise ValueError
             data = {
                 "carat": self.carat_value.get(),
                 "cut": self.cut_value.get(),
@@ -333,9 +333,11 @@ class MyGUI:
                 open_popup(prediction)
                 print(prediction)
         except tk.TclError:
-            open_error("please input float value")
+            open_error(f'please input float value')
+        except ValueError:
+            open_error(f'The value is incorrect, please use value that\'s above 0')
         except:
-            open_error("something is wrong, contact the developer")
+            open_error(f' something is wrong, please contact the developer')
 
     def on_closing(self):
         """method asking for confirmation on app closing"""
